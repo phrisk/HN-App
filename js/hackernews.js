@@ -29,6 +29,12 @@ var showNews = function(){
 // Take the clicked post's ID and use it to retrieve the post comments etc
 var showComments = function( postID ){
 
-	console.log( postID );
+	$.ajax({
+	    url      : "http://api.ihackernews.com/post/" + postID + "?format=jsonp&callback=?",
+	    dataType : "jsonp",
+	    success  : function(data) {
+	        // data is a normal response shown on yelp's API page
+	    }
+	});
 
 };
