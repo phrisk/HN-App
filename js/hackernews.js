@@ -27,7 +27,7 @@ var showNews = function(){
 	  	// Process each of the JSON items, appending them to the list view
 	    $.each(data.items, function(i,item){
 
-	      $("#HNcontentarea").append("<li><a href='" + item.href + "'><h3>" + item.title + "</h3><p>" + item.points + " points by " + item.by + " " + item.date + " ago | " + item.comments + " comments</p><span class='ui-li-count'>" + item.comments + "</span></a><a href='#' id='" + item.postid + "' class='commentLink'></a></li>");
+	      $("#HNcontentarea").append("<li><a href='#' id='" + item.postid + "' class='commentLink'><h3>" + item.title + "</h3><p>" + item.points + " points by " + item.by + " " + item.date + " ago | " + item.comments + " comments</p><span class='ui-li-count'>" + item.comments + "</span></a><a href='" + item.href + "'></a></li>");
 
 	    });
 	  });
@@ -42,7 +42,7 @@ var showNews = function(){
 var showComments = function( postID ){
 
 	// indentColour and indentFormatting are used to colour code nested comments
-	var indentColour = [ "blue", "green", "maroon", "purple", "green", "maroon", "purple" ];
+	var indentColour = [ "", "#FFA200", "#FF4100", "#015666", "#04859D", "#FF4100", "#015666", "#04859D" ];
 	var indentFormatting;
 
 	// Comments view template which is loaded dynamically
@@ -80,8 +80,8 @@ var showComments = function( postID ){
 	    		indentFormatting = "";
 
 	      	$("#comments").append("<li id='" + item.id + "' style='margin-left:" + item.indent*50 + "px;" + indentFormatting + "'>" +
-	      						"<p><small><b>" + item.by+ "</b> " + item.date + " ago" + "</small></p>" +
-	      						item.text + "</li>");
+	      						"<small><p><b>" + item.by+ "</b> " + item.date + " ago" + "</p>" +
+	      						item.text + "</small></li>");
 
 	    });
 
