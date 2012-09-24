@@ -27,7 +27,7 @@ var showNews = function(){
 	  	// Process each of the JSON items, appending them to the list view
 	    $.each(data.items, function(i,item){
 
-	      $("#HNcontentarea").append("<li><a href='" + item.href + "'><h3>" + item.title + "</h3><p>" + item.points + " points by " + item.by + " " + item.date + " ago | " + item.comments + " comments</p><span class='ui-li-count'>" + item.points + "</span></a><a href='#' id='" + item.postid + "' class='commentLink'></a></li>");
+	      $("#HNcontentarea").append("<li><a href='" + item.href + "'><h3>" + item.title + "</h3><p>" + item.points + " points by " + item.by + " " + item.date + " ago | " + item.comments + " comments</p><span class='ui-li-count'>" + item.comments + "</span></a><a href='#' id='" + item.postid + "' class='commentLink'></a></li>");
 
 	    });
 	  });
@@ -41,10 +41,12 @@ var showNews = function(){
 // Load in a template for the view and populate it with the JSON data
 var showComments = function( postID ){
 
+	// Comments view template which is loaded dynamically
 	var commentView = "<div data-role='page' id='commentsView'>" +
-					  "<div data-role='header' id='commentsHeader'>" +
+					  "<div data-role='header'><h1>Hacker News</h1>" +
 					  "<a href='#HNmainView' class='ui-btn-left' data-icon='arrow-l'>Back</a>" +
 					  "</div>" +
+					  "<div data-role='content' id='commentsHeader'></div>"  +
 					  "<ul data-role='listview' data-inset='false' id='comments'>" +
 					  "</ul>" +
 					  "</div>";
@@ -61,14 +63,19 @@ var showComments = function( postID ){
 	  	$("body").append(commentView);
 
 	  	// Add title to view
-	  	$("#commentsHeader").append("<h1>" + data.post.title + "</h1>");
+	  	$("#commentsHeader").append("<a href='" + data.post.href + "' target='_blank'>" + data.post.title + "</a><br><small>" + data.post.by + " via " + data.post.domain + "</small>");
 
 	  	// Process each of the JSON items, appending them to the list view
 	    $.each(data.comments, function(i,item){
 
-	      $("#comments").append("<li>" + item.text + "</li>");
+	      $("#comments").append("<li id='" + item.id + "'>" +
+	      						"<p><small><b>" + item.by+ "</b> " + item.date + " ago" + "</small></p>" +
+	      						item.text + "</li>");
 
 	    });
+
+	    if( data.comments.length == 0 )
+	    	$("#comments").append("<li>There are no comments to display</li>");
 
 	    // Switch to comments view
 	    window.location.replace("#commentsView");
