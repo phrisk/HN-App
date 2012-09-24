@@ -41,6 +41,10 @@ var showNews = function(){
 // Load in a template for the view and populate it with the JSON data
 var showComments = function( postID ){
 
+	// indentColour and indentFormatting are used to colour code nested comments
+	var indentColour = [ "blue", "green", "maroon", "purple", "green", "maroon", "purple" ];
+	var indentFormatting;
+
 	// Comments view template which is loaded dynamically
 	var commentView = "<div data-role='page' id='commentsView'>" +
 					  "<div data-role='header'><h1>Hacker News</h1>" +
@@ -68,7 +72,14 @@ var showComments = function( postID ){
 	  	// Process each of the JSON items, appending them to the list view
 	    $.each(data.comments, function(i,item){
 
-	      $("#comments").append("<li id='" + item.id + "'>" +
+	    	// Check if current comment is indented
+	    	// if it is, colour code it accordingly
+	    	if(item.indent>0)
+	    		indentFormatting = "border-left: solid 5px " + indentColour[item.indent] + ";";
+	    	else
+	    		indentFormatting = "";
+
+	      	$("#comments").append("<li id='" + item.id + "' style='margin-left:" + item.indent*50 + "px;" + indentFormatting + "'>" +
 	      						"<p><small><b>" + item.by+ "</b> " + item.date + " ago" + "</small></p>" +
 	      						item.text + "</li>");
 
